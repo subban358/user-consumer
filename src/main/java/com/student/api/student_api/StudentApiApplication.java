@@ -16,6 +16,13 @@ public class StudentApiApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		getStudentDetails(1);
+
+		StudentDTO student = new StudentDTO();
+		student.setName("Tamal Sarkar");
+		student.setDept("CSE");
+		student.setAge(23);
+
+		addStudent(student);
 	}
 
 	public void getStudentDetails(Integer studentId){
@@ -23,5 +30,12 @@ public class StudentApiApplication implements CommandLineRunner {
 		RestTemplate restTemplate = new RestTemplate();
 		StudentDTO studentDTO = restTemplate.getForObject(url, StudentDTO.class, studentId);
 		System.out.println(studentDTO);
+	}
+
+	public void addStudent(StudentDTO studentDTO){
+		String url = "http://localhost:8000/api/student";
+		RestTemplate restTemplate = new RestTemplate();
+		StudentDTO addedStudent = restTemplate.postForObject(url, studentDTO, StudentDTO.class);
+		System.out.println(addedStudent);
 	}
 }
